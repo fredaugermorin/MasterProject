@@ -21,6 +21,6 @@ if __name__=="__main__":
     
     opt= Option(opt_type, s, k, T, sigma, r)
     opt.valuation(n,m)
-    opt.display(conf)
+    opt.display()
 
 

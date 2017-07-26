@@ -67,14 +67,14 @@ class Option(Instrument):
             self.d = d or 0.
             exer_type= exer_type or 'american'
         
-        def display(self,conf=0.95):
+        def display(self):
             val,se= self.MCPrice
-            z= norm.pdf(0.5+conf/2.)
-            print("### Pricing a "+self.opt_type+" option using LSMC ###")
+            z= norm.pdf(0.5+self.conf/2.)
+            print("###   "+self.opt_type+" option value using LSMC   ###")
             print("Option Price: %.4f$  [%.4f, %.4f]\n")%(val,val-se*z/np.sqrt(self.MC.n),val+se*z/np.sqrt(self.MC.n))
             return 0
         
-        def valuation(self,n,m,seed=None):
+        def valuation(self,n,m,conf=0.95,seed=None):
             """
             Function that computes the value of an american option
             using the Longstaff Schwartz (2001) least squares Monte Carlo
@@ -97,6 +97,11 @@ class Option(Instrument):
             r= self.r
             sig= self.vol
             T= self.T
+            
+            self.n= n
+            self.m= m
+            self.conf= conf
+            
             if seed is None:
                 seed= int(time.time())
             
